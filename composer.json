@@ -1,0 +1,27 @@
+{
+	"name": "Cassandra GUI",
+	"authors": [
+	  {
+		"name": "Adrian Chwialkowski",
+		"email": "adrian@chwialkowski.net"
+	  }
+	],
+	"description": "All import",
+	"keywords": ["framework"],
+	"license": "BSD",
+	"type": "project",
+	"require": {
+		"simpletools/framework": "2.*",
+	  "simpletools/db-cassandra": "*"
+	},
+	"minimum-stability": "stable",
+  "autoload": {
+	"classmap": [
+	  "lib",
+	  "application/models"
+	],
+	"psr-0": {
+	  "Application": "lib"
+	}
+  }
+}
