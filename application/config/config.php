@@ -29,7 +29,7 @@ define('ENV_DIR', dirname(__FILE__).DIRECTORY_SEPARATOR.'..'.DIRECTORY_SEPARATOR
 define('PUBLIC_DIR', __DIR__ . '/../../public');
 
 
-$mainConfig = @require_once(ENV_DIR. DIRECTORY_SEPARATOR.'main.config.php');
+$mainConfig = json_decode(file_get_contents(ENV_DIR . DIRECTORY_SEPARATOR . 'main.config.json'), true);
 
 
 define('APP_ENV', $mainConfig['ENV']);
@@ -70,11 +70,23 @@ $layout = \Simpletools\Page\Layout::settings(array(
 
 
 
-$cluster = require ENV_DIR . '/cassandra.config.php';
+$cluster = json_decode(file_get_contents(ENV_DIR . '/cassandra.config.json'), true);
+
 define('CLUSTER_HOST', $cluster['hosts'][0]);
 define('CLUSTER_PORT', $cluster['port']);
-define('CASSANDRA_USERNAME', $cluster['username']);
-define('CASSANDRA_PASSWORD', $cluster['password']);
+
+define('CLUSTER_NAME', $cluster['name']);
+define('API_URL', $mainConfig['apiUrl']);
+define('ENABLE_AUTH', @$mainConfig['enableAuth']);
+
+
+
+if(!@$mainConfig['enableAuth'])
+{
+    $_SESSION['CASSANDRA_USERNAME'] = $cluster['username'];
+    $_SESSION['CASSANDRA_PASSWORD'] = $cluster['password'];
+}
+
 
 Client::cluster([
 		'default' => true,

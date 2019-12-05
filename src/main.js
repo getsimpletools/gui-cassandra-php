@@ -6,6 +6,9 @@ import Vue from 'vue'
 import './components'
 
 
+import * as serverConfig  from './../_env/main.config.json';
+import * as cassanraConfig  from './../_env/cassandra.config.json';
+
 /* eslint-disable */
 // Plugins
 import './plugins'
@@ -22,7 +25,16 @@ import store from '@/store'
 // Sync store with router
 sync(store, router)
 
-Vue.config.productionTip = false
+delete cassanraConfig.default.username;
+delete cassanraConfig.default.password;
+
+Vue.config.productionTip = false;
+Vue.prototype.$config = {
+  serverConfig : serverConfig.default,
+  cassanraConfig: cassanraConfig.default
+};
+
+
 
 /* eslint-disable no-new */
 new Vue({

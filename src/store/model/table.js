@@ -35,11 +35,11 @@ export const actions = {
 	getTables({commit, dispatch}, keyspace) {
 		commit('SET_LOADING', true);
 		return new Promise((resolve, reject) => {
-			ApiService.post(ApiService.apiUrl+'/api/get.tables', {
+			ApiService.post('/api/get.tables', {
 				keyspace: keyspace
 			})
 					.then(res => {
-						commit('SET_TABLES', res.data.body.tables)
+						commit('SET_TABLES', res.body.tables)
 						resolve(res);
 					})
 					.catch(error => {
@@ -53,10 +53,10 @@ export const actions = {
 	getTable({commit, dispatch}, {keyspace,table}) {
 		commit('SET_LOADING', true);
 		return new Promise((resolve, reject) => {
-			ApiService.post(ApiService.apiUrl+'/api/get.table', {keyspace,table})
+			ApiService.post('/api/get.table', {keyspace,table})
 					.then(res => {
-						commit('SET_TABLE', res.data.body.table)
-						dispatch('getTableData',{keyspace,table,keys:null,limit:100})
+						commit('SET_TABLE', res.body.table)
+						dispatch('getTableData',{keyspace,table,keys:null,limit:500})
 						resolve(res);
 					})
 					.catch(error => {
@@ -70,9 +70,9 @@ export const actions = {
 	getTableData({commit, dispatch}, {keyspace,table,keys,limit}) {
 		commit('SET_LOADING', true);
 		return new Promise((resolve, reject) => {
-			ApiService.post(ApiService.apiUrl+'/api/get.table.data', {keyspace,table,keys,limit})
+			ApiService.post('/api/get.table.data', {keyspace,table,keys,limit})
 					.then(res => {
-						commit('SET_TABLE_DATA', res.data.body.tableData)
+						commit('SET_TABLE_DATA', res.body.tableData)
 						resolve(res);
 					})
 					.catch(error => {
@@ -86,7 +86,7 @@ export const actions = {
 	setTableItem({commit, dispatch}, {keyspace,table,keys,item}) {
 		commit('SET_LOADING', true);
 		return new Promise((resolve, reject) => {
-			ApiService.post(ApiService.apiUrl+'/api/set.table.item', {keyspace,table,keys,item})
+			ApiService.post('/api/set.table.item', {keyspace,table,keys,item})
 					.then(res => {
 						//commit('SET_TABLE_DATA', res.data.body.tableData)
 						resolve(res);
@@ -102,7 +102,7 @@ export const actions = {
 	removeTableItem({commit, dispatch}, {keyspace,table,keys, index}) {
 		commit('SET_LOADING', true);
 		return new Promise((resolve, reject) => {
-			ApiService.post(ApiService.apiUrl+'/api/remove.table.item', {keyspace,table,keys})
+			ApiService.post('/api/remove.table.item', {keyspace,table,keys})
 					.then(res => {
 						commit('REMOVE_TABLE_DATA_ITEM', index);
 						resolve(res);

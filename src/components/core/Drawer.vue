@@ -19,11 +19,22 @@
         tag="v-list"
         column
       >
-        <v-list-tile>
-          <v-list-tile-title class="title">
-            Cassandra GUI
-          </v-list-tile-title>
-        </v-list-tile>
+        <v-list three-line>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title class="title" style="padding-top: 18px;">
+                Cassandra GUI
+              </v-list-tile-title>
+              <v-list-tile-sub-title>
+                Cluster name: {{$config.cassanraConfig.name}}
+              </v-list-tile-sub-title>
+              <v-list-tile-sub-title>
+                Connection: {{$config.cassanraConfig.hosts[0]}}:{{$config.cassanraConfig.port}}
+              </v-list-tile-sub-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+        <br>
         <v-divider/>
         <v-list-tile
           v-if="responsive"
@@ -65,11 +76,11 @@ export default {
   data: () => ({
     logo: './img/vuetifylogo.png',
     links: [
-      {
-        to: '/dashboard',
-        icon: 'mdi-view-dashboard',
-        text: 'Dashboard'
-      },
+      // {
+      //   to: '/dashboard',
+      //   icon: 'mdi-view-dashboard',
+      //   text: 'Dashboard'
+      // },
       // {
       //   to: '/user-profile',
       //   icon: 'mdi-account',
@@ -90,11 +101,11 @@ export default {
       //   icon: 'mdi-format-font',
       //   text: 'Typography'
       // },
-      {
-        to: '/icons',
-        icon: 'mdi-chart-bubble',
-        text: 'Icons'
-      },
+      // {
+      //   to: '/icons',
+      //   icon: 'mdi-chart-bubble',
+      //   text: 'Icons'
+      // },
       // {
       //   to: '/maps',
       //   icon: 'mdi-map-marker',

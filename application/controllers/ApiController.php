@@ -1,29 +1,39 @@
 <?php
 
 
-use \App\Model\Game;
-use \App\Model\Place;
-use \App\Model\GameArchive;
-use \App\Model\UserRate;
 use \App\Model\Config;
 use Simpletools\Db\Cassandra\Doc;
 
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: ' . @$_SERVER['HTTP_ORIGIN']);
+header('Access-Control-Allow-Credentials: true');
+header('Access-Control-Allow-Methods: GET, POST, PUT, PATCH, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Authorization, Content-type');
+if (@$_SERVER['REQUEST_METHOD'] == 'OPTIONS')
+{
+	header("HTTP/1.1 200 OK");
+	exit;
+}
 
 class  ApiController extends \Simpletools\Mvc\Controller
 {
 	protected $_request;
+
 
 	public function getApiRequest()
 	{
 		return json_decode(file_get_contents('php://input'));
 	}
 
-	public function response($data)
+	public function response($data,$code =null)
 	{
-		if($data['status'] != 'OK')
+		if($data['status'] != 'OK' && !$code)
 		{
 			header( 'HTTP/1.1 400 BAD REQUEST' );
+		}
+		elseif ($code == 401)
+		{
+			header( 'HTTP/1.1 401 Unauthorized' );
 		}
 
 		echo json_encode($data, JSON_PRETTY_PRINT);
@@ -35,6 +45,67 @@ class  ApiController extends \Simpletools\Mvc\Controller
 		\Simpletools\Page\Layout::getInstance()->disable();
 		$this->disableView();
 		$this->_request = $this->getApiRequest();
+
+		if(@$this->_request->token && ENABLE_AUTH)
+		{
+			session_commit();
+			session_id($this->_request->token);
+			session_start();
+		}
+
+		if($this->getParam('controller') == 'api' && $this->getParam('action') == 'login')
+		{
+			try{
+				$cluster  = Cassandra::cluster()
+					->withContactPoints(CLUSTER_HOST)
+					->withPort(CLUSTER_PORT)
+					->withCredentials(@$this->_request->username, @$this->_request->password)
+					->build();
+				$session  = $cluster->connect();
+			}catch (\Exception $e)
+			{
+				$this->response(
+					[
+						'status' => 'FAIL',
+						'msg' => $e->getMessage()
+					]
+				);
+			}
+
+			$_SESSION['CASSANDRA_USERNAME'] = $this->_request->username;
+			$_SESSION['CASSANDRA_PASSWORD'] = $this->_request->password;
+
+			$this->response(
+				[
+					'status' => 'OK',
+					'body' => [
+						'token' => session_id(),
+						'username' => $this->_request->username,
+						]
+				]
+			);
+		}
+		elseif (!@$_SESSION['CASSANDRA_USERNAME'] || !@$_SESSION['CASSANDRA_PASSWORD'])
+		{
+			$this->response(
+				[
+					'status' => 'FAIL',
+				], 401
+			);
+		}
+	}
+
+	public function loginAction(){}
+
+	public function logoutAction()
+	{
+		session_destroy();
+		$this->response(
+			[
+				'status' => 'OK',
+				'body' => []
+			]
+		);
 	}
 
 	public function getKeyspacesAction()
@@ -43,7 +114,7 @@ class  ApiController extends \Simpletools\Mvc\Controller
 		$cluster  = Cassandra::cluster()
 				->withContactPoints(CLUSTER_HOST)
 				->withPort(CLUSTER_PORT)
-				->withCredentials(CASSANDRA_USERNAME, CASSANDRA_PASSWORD)
+				->withCredentials($_SESSION['CASSANDRA_USERNAME'], $_SESSION['CASSANDRA_PASSWORD'])
 				->build();
 		//$keyspace  = 'feed_products';
 		$session  = $cluster->connect();
@@ -71,7 +142,7 @@ class  ApiController extends \Simpletools\Mvc\Controller
 		$cluster  = Cassandra::cluster()
 				->withContactPoints(CLUSTER_HOST)
 				->withPort(CLUSTER_PORT)
-				->withCredentials(CASSANDRA_USERNAME, CASSANDRA_PASSWORD)
+				->withCredentials($_SESSION['CASSANDRA_USERNAME'], $_SESSION['CASSANDRA_PASSWORD'])
 				->build();
 		$session  = $cluster->connect();
 
@@ -137,7 +208,7 @@ class  ApiController extends \Simpletools\Mvc\Controller
 		$cluster  = Cassandra::cluster()
 				->withContactPoints(CLUSTER_HOST)
 				->withPort(CLUSTER_PORT)
-				->withCredentials(CASSANDRA_USERNAME, CASSANDRA_PASSWORD)
+				->withCredentials($_SESSION['CASSANDRA_USERNAME'], $_SESSION['CASSANDRA_PASSWORD'])
 				->build();
 		$session  = $cluster->connect();
 

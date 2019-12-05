@@ -18,10 +18,11 @@ import mutations from './mutations'
 import state from './state'
 import * as keyspace from './model/keyspace.js'
 import * as table from './model/table.js'
-modules.keyspace = keyspace
-modules.table = table
+import * as user from './model/user.js'
+modules.keyspace = keyspace;
+modules.table = table;
+modules.user = user;
 
-console.log('modules', modules)
 
 Vue.use(Vuex)
 

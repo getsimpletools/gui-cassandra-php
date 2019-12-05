@@ -6,21 +6,21 @@
   >
     <v-layout wrap>
       <v-flex
-        md12
-        sm12
-        lg4
+              md12
+              sm12
+              lg4
       >
         <material-chart-card
-          :data="dailySalesChart.data"
-          :options="dailySalesChart.options"
-          color="info"
-          type="Line"
+                :data="dailySalesChart.data"
+                :options="dailySalesChart.options"
+                color="info"
+                type="Line"
         >
           <h4 class="title font-weight-light">Daily Sales</h4>
           <p class="category d-inline-flex font-weight-light">
             <v-icon
-              color="green"
-              small
+                    color="green"
+                    small
             >
               mdi-arrow-up
             </v-icon>
@@ -30,34 +30,29 @@
 
           <template slot="actions">
             <v-icon
-              class="mr-2"
-              small
+                    class="mr-2"
+                    small
             >
               mdi-clock-outline
             </v-icon>
             <span class="caption grey--text font-weight-light">updated 4 minutes ago</span>
           </template>
         </material-chart-card>
-      </v-flex>
-      <v-flex
-        md12
-        sm12
-        lg4
-      >
+
         <material-chart-card
-          :data="emailsSubscriptionChart.data"
-          :options="emailsSubscriptionChart.options"
-          :responsive-options="emailsSubscriptionChart.responsiveOptions"
-          color="red"
-          type="Bar"
+                :data="emailsSubscriptionChart.data"
+                :options="emailsSubscriptionChart.options"
+                :responsive-options="emailsSubscriptionChart.responsiveOptions"
+                color="red"
+                type="Bar"
         >
           <h4 class="title font-weight-light">Email Subscription</h4>
           <p class="category d-inline-flex font-weight-light">Last Campaign Performance</p>
 
           <template slot="actions">
             <v-icon
-              class="mr-2"
-              small
+                    class="mr-2"
+                    small
             >
               mdi-clock-outline
             </v-icon>

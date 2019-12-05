@@ -1,0 +1,11 @@
+{
+  "hosts": [
+    ""
+  ],
+  "username": "",
+  "password": "",
+  "port": 9042,
+  "name": "",
+  "keyspace": "",
+  "counter_table": ""
+}

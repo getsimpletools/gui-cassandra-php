@@ -1,0 +1,6 @@
+{
+	"ENV"	: "DEV",
+	"apiUrl" : "https://cassandra-gui",
+	"enableAuth" : true
+}
+

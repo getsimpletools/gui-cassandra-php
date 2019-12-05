@@ -27,10 +27,11 @@
 			</v-icon>
 		</v-snackbar>
 
-		<v-dialog v-model="dialog" width="1600px">
+		<v-dialog persistent v-model="dialog" width="1600px">
 			<v-card>
 				<v-card-title>
-					<span class="headline">Edit Item</span>
+					<span v-if="dialogAction=='edit'" class="headline">Edit Item</span>
+					<span v-else class="headline">Add Item</span>
 				</v-card-title>
 				<v-card-text>
 					<v-textarea
@@ -42,7 +43,8 @@
 				<v-card-actions>
 					<v-spacer></v-spacer>
 					<v-btn color="green darken-1" flat="flat" @click="dialog = false">cancel</v-btn>
-					<v-btn color="blue darken-1"  @click="saveItem">Save</v-btn>
+					<v-btn v-if="dialogAction=='edit'"color="blue darken-1" :loading="loading"  @click="saveItem">Save</v-btn>
+					<v-btn v-else color="blue darken-1" :loading="loading"  @click="saveItem">Add</v-btn>
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
@@ -134,6 +136,19 @@
     <v-card-actions v-if="$slots.actions">
       <slot name="actions" />
     </v-card-actions>
+
+
+	  <v-btn
+			  fixed
+				fab
+			  bottom
+			  right
+			  color="secondary"
+			  @click="addItem"
+	  >
+		  <v-icon>mdi-plus</v-icon>
+	  </v-btn>
+
   </v-card>
 </template>
 
@@ -151,7 +166,8 @@ export default {
 
 		snackbar: false,
 		snackbarColor:'success',
-		snackbarText: ''
+		snackbarText: '',
+		dialogAction: 'add'
 	}),
 
 
@@ -197,25 +213,39 @@ export default {
 				keyspace: this.keyspace,
 				table: this.table.name,
 				keys: this.keys,
-				limit: 10
+				limit: 500
 			}).catch(error =>{
 				self.snackbarColor = 'error';
-				self.snackbarText = error.response.data.msg;
+				self.snackbarText = error.data.msg;
 				self.snackbar = true;
 			})
 		},
 		editItem(item){
 			this.editingItem = item;
 			this.editingItemJson = JSON.stringify(item, null, 2);
+			this.dialogAction = 'edit';
+			this.dialog = true;
+		},
+		addItem(){
+			var self = this;
+			this.editingItem = {};
+
+			var first = true;
+			this.headers.forEach(function(elem){
+				if(!first)
+					self.editingItem[elem.text] = "";
+
+				first = false;
+			});
+
+			this.editingItemJson = JSON.stringify(this.editingItem, null, 2);
+			this.dialogAction = 'add';
 			this.dialog = true;
 		},
 		saveItem(){
 			var self = this;
-			this.dialog = false;
 			var keys = {};
 			var item = JSON.parse(this.editingItemJson);
-
-
 
 			Object.keys(this.table.primaryKey).forEach(function(key,type) {
 				keys[key] = item[key];
@@ -227,7 +257,7 @@ export default {
 				keys: keys,
 				item: item
 			}).then(res => {
-				if(res.data.status == 'OK')
+				if(res.status == 'OK')
 				{
 					self.snackbarColor = 'success';
 					self.snackbarText = 'Item Saved!';
@@ -235,6 +265,7 @@ export default {
 					Object.keys(item).forEach(function(key,index) {
 						self.editingItem[key] = item[key];
 					});
+					self.dialog = false;
 				}
 				else
 				{
@@ -244,7 +275,7 @@ export default {
 				self.snackbar = true;
 			}).catch(error =>{
 				self.snackbarColor = 'error';
-				self.snackbarText = error.response.data.msg;
+				self.snackbarText = error.data.msg;
 				self.snackbar = true;
 			})
 		},
@@ -283,7 +314,7 @@ export default {
 					self.snackbar = true;
 				}).catch(error =>{
 					self.snackbarColor = 'error';
-					self.snackbarText = error.response.data.msg;
+					self.snackbarText = error.data.msg;
 					self.snackbar = true;
 				})
 			}
