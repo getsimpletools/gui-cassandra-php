@@ -12,7 +12,7 @@
 				align-content-space-around="true"
 		>
 			<v-flex xs12>
-				<v-select label="Keyspace" v-model="keyspace" @change="loadTables" :items="keyspaces"></v-select>
+				<v-select style="max-width: 500px" box label="Keyspace" v-model="keyspace" @change="loadTables" :items="keyspaces"></v-select>
 			</v-flex>
 
 			<v-flex

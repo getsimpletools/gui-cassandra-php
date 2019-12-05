@@ -11,8 +11,8 @@
       <v-flex
         md12
       >
-				<v-select label="Keyspace" v-model="keyspace" @change="loadTables" :items="keyspaces"></v-select>
-				<v-select v-model="currentTable" @change="loadTable" label='table' v-if="keyspace && tables" :items="tables" item-text="name" item-value="name"></v-select>
+				<v-select style="max-width: 500px" box label="Keyspace" v-model="keyspace" @change="loadTables" :items="keyspaces"></v-select>
+				<v-select  style="max-width: 500px" box v-model="currentTable" @change="loadTable" label='table' v-if="keyspace && tables" :items="tables" item-text="name" item-value="name"></v-select>
 
         <cassandra-table
 						v-if="keyspace && currentTable && table"
