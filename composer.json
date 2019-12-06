@@ -17,8 +17,7 @@
 	"minimum-stability": "stable",
   "autoload": {
 	"classmap": [
-	  "lib",
-	  "application/models"
+	  "lib"
 	],
 	"psr-0": {
 	  "Application": "lib"
