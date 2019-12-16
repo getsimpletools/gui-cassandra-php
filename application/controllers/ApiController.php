@@ -317,7 +317,7 @@ class  ApiController extends \Simpletools\Mvc\Controller
 		if($this->_request)
 		{
 			try{
-				$doc = new Doc($this->_request->keys);
+				$doc = new Doc((array)$this->_request->keys);
 				$doc->keyspace($this->_request->keyspace)
 						->table($this->_request->table)
 						->body($this->_request->item)
@@ -346,7 +346,7 @@ class  ApiController extends \Simpletools\Mvc\Controller
 		if($this->_request)
 		{
 			try{
-				$doc = new Doc($this->_request->keys);
+				$doc = new Doc((array)$this->_request->keys);
 				$doc->keyspace($this->_request->keyspace)
 						->table($this->_request->table)
 						->remove();
