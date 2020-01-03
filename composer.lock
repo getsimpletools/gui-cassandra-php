@@ -1,0 +1,108 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "ea9fe2366198b13d3efa372b44c003e7",
+    "packages": [
+        {
+            "name": "simpletools/db-cassandra",
+            "version": "0.3.21",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getsimpletools/db-cassandra.git",
+                "reference": "04caf6b9821c96753555a04913ed106912c18106"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getsimpletools/db-cassandra/zipball/04caf6b9821c96753555a04913ed106912c18106",
+                "reference": "04caf6b9821c96753555a04913ed106912c18106",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Simpletools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Rosinski",
+                    "email": "marcin@getsimpletools.com",
+                    "homepage": "http://twitter.com/marcinrosinski"
+                },
+                {
+                    "name": "Adrian Chwialkowski",
+                    "email": "adrian@getsimpletools.com"
+                }
+            ],
+            "description": "Simpletools Cassandra Client",
+            "homepage": "http://www.getsimpletools.com/",
+            "keywords": [
+                "framework"
+            ],
+            "time": "2020-01-03T16:14:06+00:00"
+        },
+        {
+            "name": "simpletools/framework",
+            "version": "2.8.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/getsimpletools/simpletools.git",
+                "reference": "6704688832d716f55b66b73c223c52aade7b62a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/getsimpletools/simpletools/zipball/6704688832d716f55b66b73c223c52aade7b62a9",
+                "reference": "6704688832d716f55b66b73c223c52aade7b62a9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Simpletools\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Marcin Rosinski",
+                    "email": "marcin@getsimpletools.com",
+                    "homepage": "http://twitter.com/marcinrosinski"
+                },
+                {
+                    "name": "Adrian Chwialkowski",
+                    "email": "adrian@getsimpletools.com"
+                }
+            ],
+            "description": "High Performance MVC Framework",
+            "homepage": "http://www.getsimpletools.com/",
+            "keywords": [
+                "framework"
+            ],
+            "time": "2020-01-03T16:14:34+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
